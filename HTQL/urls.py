@@ -12,6 +12,7 @@ urlpatterns = [
     path('api/user/register/', views.UserCreateView.as_view(), name='register_user' ),
     path('api/student/register/', views.StudentCreateView.as_view() ),
     path('api/user/profile/', views.UserProfileAPI.as_view() ),
+    path('api/user/teacher/', views.TeacherListView.as_view() ),
 
     path('api/edup/', views.EduProgramListView.as_view(), name='list_eduprogram'),#danh sách các chương trình đào tạo
     path('api/edup/create/', views.EduProgramCreateView.as_view(), name='list_eduprogram'),

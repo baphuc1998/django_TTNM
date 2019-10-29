@@ -55,6 +55,14 @@ class StudentCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = (permissions.AllowAny,Pms_Register,)
 
+class TeacherListView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserList_S
+    permission_classes = (permissions.IsAuthenticated,IsAdmin,)
+    pagination_class = None
+
+    def get_queryset(self):
+        return self.queryset.filter(is_active=True, position='teacher')
 
 class EduProgramListView(generics.ListAPIView, mixins.ListModelMixin, mixins.CreateModelMixin ):
     queryset = EduProgram.objects.all()
