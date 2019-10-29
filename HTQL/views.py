@@ -317,6 +317,7 @@ class SubjectofTeacherList(generics.ListAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectList_S
     pagination_class = Patigation_10_item
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         return self.queryset.filter(teacher_id=self.request.user)
