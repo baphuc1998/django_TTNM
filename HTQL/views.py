@@ -313,6 +313,14 @@ class SubjectListView(generics.ListAPIView, mixins.ListModelMixin, mixins.Create
     # def post(self, request):
     #     return self.create(request)
 
+class SubjectofTeacherList(generics.ListAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectList_S
+    pagination_class = Patigation_10_item
+
+    def get_queryset(self):
+        return self.queryset.filter(teacher_id=self.request.user)
+
 class SubjectCreateView(generics.ListAPIView, mixins.ListModelMixin, mixins.CreateModelMixin ):
     queryset = Subject.objects.all()
     serializer_class = SubjectCreate_S

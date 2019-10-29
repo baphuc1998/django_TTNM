@@ -37,6 +37,7 @@ urlpatterns = [
     path('api/subject/', views.SubjectListView.as_view(), name='list_subject'), #danh sách các môn học
     path('api/subject/create/', views.SubjectCreateView.as_view(), name='list_subject'),
     path('api/subject/<int:pk>/', views.SubjectDetailView.as_view(), name='detail_subject'),
+    path('api/teacher/subject/', views.SubjectofTeacherList.as_view()),
 
     path('api/schedule/', views.ScheduleListView.as_view(), name='list_schedule'), #danh sách thời khóa biểu
     path('api/schedule/create/', views.ScheduleCreateView.as_view(), name='list_schedule'),
