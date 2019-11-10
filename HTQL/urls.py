@@ -52,7 +52,7 @@ urlpatterns = [
     path('api/summary/', views.GPAView.as_view(), name='list_subscore'), #remove
 
     path('api/transcript/', views.TranscriptListView.as_view(), name='list_transcript'), #xem điểm tổng kết (GPA & tín chỉ tích lũy)
-    path('api/transcript/<id>', views.TranscriptDetailView.as_view(), name='detail_transcript'),
+    path('api/transcript/<int:pk>/', views.TranscriptDetailView.as_view(), name='detail_transcript'),
 
 
     #path('api/user/login', obtain_jwt_token),

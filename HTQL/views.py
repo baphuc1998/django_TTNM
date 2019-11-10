@@ -141,7 +141,7 @@ class StudyProgramListView(generics.ListAPIView, mixins.ListModelMixin, mixins.C
     serializer_class = StudyProgramList_S
     permission_classes = (permissions.IsAuthenticated,IsStudentOrAdmin,)
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('isActive','status',)
+    filter_fields = ('isActive','status','course_id',)
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -219,7 +219,7 @@ class ManagerStudyProgramListView(generics.ListAPIView ):
     serializer_class = Manager_StudyProgramList_S
     permission_classes = (permissions.IsAuthenticated,IsAdminOrManager)
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('status','isActive',)
+    filter_fields = ('status','isActive','course_id',)
 
     def get_queryset(self):
         return self.queryset.all().order_by("-id")
@@ -417,6 +417,7 @@ class DepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
 class SubScoreListView(generics.ListAPIView, mixins.ListModelMixin, mixins.CreateModelMixin ):
     queryset = Sub_Score.objects.all()
     serializer_class = SubScoreList_S
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -434,6 +435,16 @@ class TranscriptListView(generics.ListAPIView):
 class TranscriptDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Transcript.objects.all()
     serializer_class = TranscriptDetail_S
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def partial_update(self, request, *args, **kwargs):   
+        kwargs['partial'] = True
+        obj = self.get_object()
+        obj.graduate = True
+        obj.save()
+        obj.studyprogram_id.status = "graduated"
+        obj.studyprogram_id.save()
+        return Response("Graduated", status=status.HTTP_200_OK)
 
 class GPAView(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
