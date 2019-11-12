@@ -19,6 +19,7 @@ class UserListView(generics.ListAPIView, mixins.ListModelMixin, mixins.CreateMod
     pagination_class = Patigation_10_item
     filter_backends = (DjangoFilterBackend,filters.SearchFilter,)
     search_fields   = ['position']
+    filter_fields = ('is_active',)
 
     def get_queryset(self):
         return self.queryset.filter(is_active=True)
@@ -392,7 +393,7 @@ class SubjectDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ScheduleListView(generics.ListAPIView, mixins.ListModelMixin, mixins.CreateModelMixin ):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleList_S
-    permission_classes = (permissions.IsAuthenticated,CanPostSchedule ,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,CanPostSchedule ,)
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('course',)
 
