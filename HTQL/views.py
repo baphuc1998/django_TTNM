@@ -66,7 +66,7 @@ class UserResetPassword(generics.RetrieveUpdateDestroyAPIView):
         obj = CustomUser.objects.get(id=pk)
         obj.is_active = False
         obj.save()
-        raise exceptions.ValidationError("You deleted this item") 
+        return Response("Deleted Successfully", status = status.HTTP_200_OK)
 
 class UserCreateView(generics.CreateAPIView):
     serializer_class = UserCreate_S
