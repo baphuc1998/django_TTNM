@@ -18,6 +18,12 @@ class UserDetail_S(ModelSerializer):
         read_only_fields = ('id','sub_id','username','position','is_active','last_login',)
         #fields = '__all__'
 
+class UserResetPass_S(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('id','sub_id','username','position','is_active','phone','address','image','last_login','email','first_name','last_name')
+        read_only_fields = ('id','sub_id','username','position','last_login',)
+
 class EduProgramList_S(ModelSerializer):
 
     url = HyperlinkedIdentityField(view_name='HTQL:detail_eduprogram',lookup_field='pk')

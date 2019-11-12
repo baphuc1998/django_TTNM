@@ -43,6 +43,29 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         obj = CustomUser.objects.get(id=pk)
         obj.is_active = False
         obj.save()
+        raise exceptions.ValidationError("You deleted this item")
+
+class UserResetPassword(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserResetPass_S
+    permission_classes = (permissions.IsAuthenticated,IsOwnerOrAdmin,)
+
+    def partial_update(self, request, *args, **kwargs):   
+        kwargs['partial'] = True
+        obj = self.get_object()
+        try:
+            password = request.data['password']
+            obj.set_password(password)
+            obj.save()
+            return Response("You have reset password successfully", status = status.HTTP_200_OK)
+        except:
+            return Response("Can not reset password", status = status.HTTP_400_BAD_REQUEST)
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, pk=None):
+        obj = CustomUser.objects.get(id=pk)
+        obj.is_active = False
+        obj.save()
         raise exceptions.ValidationError("You deleted this item") 
 
 class UserCreateView(generics.CreateAPIView):
